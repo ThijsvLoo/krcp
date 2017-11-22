@@ -4,8 +4,7 @@ public class Perceptron {
 
 	double[] weights;
 	double threshold;
-	public void Train(double[][] inputs, int[] outputs, double threshold, double lrate, int epoch)
-	{
+	public void Train(double[][] inputs, int[] outputs, double threshold, double lrate, int epoch) {
 
 		this.threshold = threshold;
 		int n = inputs[0].length;
@@ -14,23 +13,19 @@ public class Perceptron {
 		Random r = new Random();
 
 		//initialize weights
-		for(int i=0;i<n;i++)
-		{
+		for(int i=0;i<n;i++) {
 			weights[i] = r.nextDouble();
 		}
 
-		for(int i=0;i<epoch;i++)
-		{
+		for(int i=0;i<epoch;i++) {
 			int totalError = 0;
-			for(int j =0;j<p;j++)
-			{
+			for(int j =0;j<p;j++) {
 				int output = Output(inputs[j]);
 				int error = outputs[j] - output;
 
-				totalError +=error;
+				totalError += error;
 
-				for(int k = 0;k<n;k++)
-				{
+				for(int k = 0;k<n;k++) {
 					double delta = lrate * inputs[j][k] * error;
 					weights[k] += delta;
 				}
@@ -43,11 +38,9 @@ public class Perceptron {
 
 	}
 
-	public int Output(double[] input)
-	{
+	public int Output(double[] input) {
 		double sum = 0.0;
-		for(int i=0;i<input.length;i++)
-		{
+		for(int i=0;i<input.length;i++) {
 			sum += weights[i]*input[i];
 		}
 
