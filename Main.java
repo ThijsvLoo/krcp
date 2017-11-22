@@ -1,8 +1,6 @@
-package perceptron;
+public class Main {
 
-public class main {
-
-	public static void Main(String[] args) {
+	public static void main(String[] args) {
 		Perceptron p = new Perceptron();
 		double inputs[][] = {{0,0},{0,1},{1,0},{1,1}};
 		int outputs[] = {0,0,0,1};
