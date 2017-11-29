@@ -16,7 +16,7 @@ public class Network {
 		}
 
 		threshold = 1;
-		learningRate = 0.2;
+		learningRate = 0.05;
 	}
 
 	public void Train(double[][] inputs, int[] outputs)
@@ -25,7 +25,7 @@ public class Network {
 		int p = outputs.length;
 
 		double error = 1;
-		while(error > 0.1){
+		while(error > 0){
 			for(int i = 0; i < outputs.length; i++){
 				int act = calculateActivation(inputs[i]);
 				error = outputs[i] - act;
@@ -41,9 +41,8 @@ public class Network {
 		double sum = 0.0;
 		for(int i=0;i<inputs.length;i++) {
 			sum += weights[i] * inputs[i];
-			sum += bias;
 		}
-
+		sum += bias;
 		if(sum>threshold)
 			return 1;
 		else
