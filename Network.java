@@ -1,21 +1,17 @@
-import java.util.Random;
-
 public class Network {
 
-	private double[] weights = {0.1,0.3};
+	private double[] weights/* = {0.1,0.3}*/;
 	private double threshold;
-	private Random r = new Random();
 	private double learningRate;
-	//private double bias = 1 * Math.random();
-	private double bias = -0.3;
+	private double bias = 1 * Math.random();
+	//private double bias = -0.3;
 	public Network(){
 		//initialize weights
-		/*weights = new double[2];
+		weights = new double[2];
 		for(int i=0;i<weights.length;i++)
 		{
 			weights[i] = Math.random();
-		}*/
-
+		}
 		threshold = 1;
 		learningRate = 0.1;
 	}
@@ -24,10 +20,10 @@ public class Network {
 	{
 
 		double error = 1;
-		double error2 = 1;
+		double avgError = 1;
 		int it = 0;
-		while(error2 > 0.5){
-			error2 = 0;
+		while(avgError > 0.1){
+			avgError = 0;
 			it++;
 			for(int i = 0; i < outputs.length; i++){
 				int act = calculateActivation(inputs[i]);
@@ -36,8 +32,9 @@ public class Network {
 					weights[j] += learningRate*error*inputs[i][j];
 					bias += learningRate*error;
 				}
-				error2 += Math.abs(error);
+				avgError += Math.abs(error);
 			}
+			avgError /= weights.length;
 		}
 		System.out.println(it);
 	}
