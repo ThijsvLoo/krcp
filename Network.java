@@ -27,7 +27,6 @@ public class Network {
 		while(error2 > 0.5){
 			error2 = 0;
 			for(int i = 0; i < outputs.length; i++){
-				//System.out.println("error " + error);
 				int act = calculateActivation(inputs[i]);
 				error = outputs[i] - act;
 				for(int j = 0; j < weights.length; j++){
@@ -36,7 +35,6 @@ public class Network {
 				}
 				error2 += Math.abs(error);
 			}
-			//System.out.println("error2 " + error2);
 		}
 	}
 
