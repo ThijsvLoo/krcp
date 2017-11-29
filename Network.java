@@ -2,21 +2,22 @@ import java.util.Random;
 
 public class Network {
 
-	private double[] weights;
+	private double[] weights = {0.1,0.3};
 	private double threshold;
 	private Random r = new Random();
 	private double learningRate;
-	private double bias = Math.random();
+	//private double bias = 1 * Math.random();
+	private double bias = -0.3;
 	public Network(){
 		//initialize weights
-		weights = new double[2];
+		/*weights = new double[2];
 		for(int i=0;i<weights.length;i++)
 		{
 			weights[i] = Math.random();
-		}
+		}*/
 
 		threshold = 1;
-		learningRate = 0.05;
+		learningRate = 0.1;
 	}
 
 	public void Train(double[][] inputs, int[] outputs)
