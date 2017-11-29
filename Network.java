@@ -24,8 +24,10 @@ public class Network {
 
 		double error = 1;
 		double error2 = 1;
+		int it = 0;
 		while(error2 > 0.5){
 			error2 = 0;
+			it++;
 			for(int i = 0; i < outputs.length; i++){
 				int act = calculateActivation(inputs[i]);
 				error = outputs[i] - act;
@@ -36,6 +38,7 @@ public class Network {
 				error2 += Math.abs(error);
 			}
 		}
+		System.out.println(it);
 	}
 
 	public int calculateActivation(double[] inputs){
@@ -48,5 +51,11 @@ public class Network {
 			return 1;
 		else
 			return 0;
+	}
+	public void printWeigths(){
+		for(int i = 0; i < weights.length; i++){
+			System.out.println(weights[i]);
+		}
+		System.out.println(bias);
 	}
 }
