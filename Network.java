@@ -7,7 +7,6 @@ public class Network {
 	private Random r = new Random();
 	private double learningRate;
 	private double bias = Math.random();
-	private double errorSingle;
 	public Network(){
 		//initialize weights
 		weights = new double[2];
@@ -22,19 +21,19 @@ public class Network {
 
 	public void Train(double[][] inputs, int[] outputs)
 	{
-		int n = inputs[0].length;
-		int p = outputs.length;
 
 		double error = 1;
-		while(error != 0){
-			for(int i = 0; i < outputs.length; i++) {
+		double error2 = 1;
+		while(error2 > 0.5){
+			error2 = 0;
+			for(int i = 0; i < outputs.length; i++){
 				int act = calculateActivation(inputs[i]);
 				error = outputs[i] - act;
-				System.out.println(error);
-				for (int j = 0; j < weights.length; j++) {
-					weights[j] += learningRate * error * inputs[i][j];
-					bias += learningRate * error;
+				for(int j = 0; j < weights.length; j++){
+					weights[j] += learningRate*error*inputs[i][j];
+					bias += learningRate*error;
 				}
+				error2 += Math.abs(error);
 			}
 		}
 	}
