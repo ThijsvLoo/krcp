@@ -1,23 +1,26 @@
 public class Main {
 
 	public static void main(String[] args) {
-		int samples = 1000;
-		double[][] input = new double[samples][];
-		int[] output = new int[samples];
+		int samples = 1000000;//number of training samples
+		double[][] input = new double[samples][2];//create the training sample input array
+		int[] output = new int[samples];//create the training sample output array
 		for (int i = 0; i < samples; i++){
-			double randX = Math.random() * 4;
-			double randY = Math.random() * 4;
+			//generate a random x and y coordinate
+			double randX = Math.random() * 10;
+			double randY = Math.random() * 10;
 			int randOut;
+			//fidn out which output belongs to these random x and y coordinates
 			if(2*randX+1 > randY){
 				randOut = 1;
 			} else {
 				randOut = 0;
 			}
-			input[i][1] = randX;
-			input[i][2] = randY;
+			//put the data into our training sample arrays
+			input[i][0] = randX;
+			input[i][1] = randY;
 			output[i] = randOut;
 		}
-
+		//create a new network and train it
 		Network network = new Network();
 		network.Train(input, output);
 		for (int i = 0; i<input.length;i++) {
