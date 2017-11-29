@@ -6,14 +6,15 @@ public class Network {
 	private double threshold;
 	private Random r = new Random();
 	private double learningRate;
-
+	private double bias = Math.random();
 	public Network(){
 		//initialize weights
-		for(int i=0;i<3;i++)
+		weights = new double[2];
+		for(int i=0;i<weights.length;i++)
 		{
-			weights[i] = r.nextDouble();
+			weights[i] = Math.random();
 		}
-		weights = new double[3];
+
 		threshold = 1;
 		learningRate = 0.2;
 	}
@@ -24,22 +25,23 @@ public class Network {
 		int p = outputs.length;
 
 		double error = 1;
-		while(error > 0.5){
+		while(error > 0.1){
 			for(int i = 0; i < outputs.length; i++){
 				int act = calculateActivation(inputs[i]);
 				error = outputs[i] - act;
-				for(int j = 0; j < inputs.length; j++){
-					double dWeights = learningRate*error*inputs[i][j];
-					weights[i] = weights[i] + dWeights;
+				for(int j = 0; j < weights.length; j++){
+					weights[j] += learningRate*error*inputs[i][j];
+					bias += learningRate*error;
 				}
 			}
 		}
 	}
 
-	private int calculateActivation(double[] inputs){
+	public int calculateActivation(double[] inputs){
 		double sum = 0.0;
 		for(int i=0;i<inputs.length;i++) {
-			sum += weights[i]*inputs[i];
+			sum += weights[i] * inputs[i];
+			sum += bias;
 		}
 
 		if(sum>threshold)
