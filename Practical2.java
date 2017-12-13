@@ -43,6 +43,38 @@ public class Practical2 {
 		}
 
 		// do your own cool GA here
+
+		int i = 0;
+		while (population[99].getFitness() != 1) {
+			Individual parent1 = individualSelect(population).clone();
+			Individual parent2 = individualSelect(population).clone();
+			Individual child1 = crossOver(population, parent1, parent2);
+			Individual child2 = crossOver(population, parent1, parent2);
+			population[99] = child1;
+			population[98] = child2;
+			HeapSort.sort(population);
+			i++;
+			if(i % 1000 == 0){
+				for (int k = 0; k < population.length; k++) {
+					System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
+				}
+			}
+		}
+		for (int k = 0; k < population.length; k++) {
+			System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
+		}
+
+
+		/*Individual parent1 = individualSelect(population).clone();
+		Individual parent2 = individualSelect(population).clone();
+		Individual child1 = crossOver(population, parent1, parent2);
+		Individual child2 = crossOver(population, parent1, parent2);
+		System.out.println("parent1: " + parent1.genoToPhenotype() + " Fitness: " + parent1.getFitness());
+		System.out.println("parent2: " + parent2.genoToPhenotype() + " Fitness: " + parent2.getFitness());
+		System.out.println("child1: " + child1.genoToPhenotype() + " Fitness: " + child1.getFitness());
+		System.out.println("child2: " + child2.genoToPhenotype() + " Fitness: " + child2.getFitness());
+		*/
+
 		/**
 		 * Some general programming remarks and hints:
 		 * - A crucial point is to set each individual's fitness (by the setFitness() method) before sorting. When is an individual fit? 
@@ -58,5 +90,44 @@ public class Practical2 {
 		 * - You can compare your chromosome and your target string, using for eg. TARGET.charAt(i) == ...
 		 * - Check your integers and doubles (eg. don't use ints for double divisions).
 		 */
+	}
+	public static Individual individualSelect(Individual[] population){
+		double totalFitness = 0;
+		for(int i =0; i < population.length; i++){
+			totalFitness += population[i].getFitness();
+		}
+
+		double tmpDouble = Math.random();
+		double tmpFitness = 0;
+		int i = 0;
+		do {
+			tmpFitness += population[i].getFitness()/ totalFitness;
+			i++;
+		} while(tmpFitness < tmpDouble);
+		return population[i-1];
+	}
+
+	public static Individual crossOver(Individual[] population, Individual individual1, Individual individual2){
+		double rand = 11 * Math.random();
+		String parent1 = new String();
+		String parent2 = new String();
+		if(Math.random() > 0.5){
+			parent1 = individual1.genoToPhenotype();
+			parent2 = individual2.genoToPhenotype();
+		} else {
+			parent1 = individual2.genoToPhenotype();
+			parent2 = individual1.genoToPhenotype();
+		}
+		int i = 0;
+		char[] chromosome1 = new char[11];
+		while(i < rand){
+			chromosome1[i] = parent1.charAt(i);
+			i++;
+		}
+		while(i < 11){
+			chromosome1[i] = parent2.charAt(i);
+			i++;
+		}
+		return new Individual(chromosome1);
 	}
 }

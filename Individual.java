@@ -24,11 +24,11 @@ public class Individual {
 
 	public double setFitness() {
 		char[] ownChromosome = getChromosome();
-		double count = 0;
+		double count = 11;
 		for(int i =0; i < ownChromosome.length; i++)
 		{
 			if(ownChromosome[i] != Practical2.TARGET.charAt(i))
-				count++;
+				count--;
 		}
 		fitness = count/11;
 		return fitness;
