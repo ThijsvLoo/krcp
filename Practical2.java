@@ -45,24 +45,19 @@ public class Practical2 {
 		// do your own cool GA here
 
 		int i = 0;
-		while (population[99].getFitness() != 1) {
+		while (population[0].getFitness() != 1) {
 			Individual parent1 = individualSelect(population).clone();
 			Individual parent2 = individualSelect(population).clone();
 			Individual child1 = crossOver(population, parent1, parent2);
-			Individual child2 = crossOver(population, parent1, parent2);
-			population[99] = child1;
-			population[98] = child2;
+			population[population.length-1] = child1;
+			mutate(population);
 			HeapSort.sort(population);
 			i++;
-			if(i % 1000 == 0){
-				for (int k = 0; k < population.length; k++) {
-					System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
-				}
-			}
 		}
-		for (int k = 0; k < population.length; k++) {
+		for (int k = population.length-1; k >= 0; k--) {
 			System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
 		}
+		System.out.println("Number of Iterations: " + i);
 
 
 		/*Individual parent1 = individualSelect(population).clone();
@@ -129,5 +124,29 @@ public class Practical2 {
 			i++;
 		}
 		return new Individual(chromosome1);
+	}
+
+	public static void mutate(Individual[] population){
+		double mutateChance = 0.001;
+		for (char c = 'A'; c <= 'Z'; c++) {
+			alphabet[c - 'A'] = c;
+		}
+		alphabet[26] = ' ';
+		Random generator = new Random(System.currentTimeMillis());
+
+		for (int i = 0; i < population.length; i++){
+			for (int j = 0; j < 11; j++){
+				double rand = Math.random();
+				if (rand < mutateChance){
+					String chromosome1 = population[i].genoToPhenotype();
+					String newChromosome = chromosome1.substring(0,j) + alphabet[generator.nextInt(alphabet.length)] + chromosome1.substring(j + 1,11);
+					char[] newerCromosome = new char[11];
+					for (int k = 0; k < 11; k++){
+						newerCromosome[k] = newChromosome.charAt(k);
+					}
+					population[i] = new Individual(newerCromosome);
+				}
+			}
+		}
 	}
 }
