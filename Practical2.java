@@ -22,8 +22,8 @@ public class Practical2 {
 	 */
 	public static void main(String[] args) {
 		int totalGen = 0;
-		for (int h = 0; h < 500; h++) {
-			int popSize = 100;
+		int popSize = 100;
+		for (int h = 0; h < 10000; h++) {
 			for (char c = 'A'; c <= 'Z'; c++) {
 				alphabet[c - 'A'] = c;
 			}
@@ -62,7 +62,7 @@ public class Practical2 {
 			//System.out.println("Number of Iterations: " + i);
 			totalGen += i;
 		}
-		System.out.println("avaerage number of generations: " + totalGen/500);
+		System.out.println("avaerage number of generations: " + totalGen/10000 + " popsize: " + popSize);
 
 		/*Individual parent1 = individualSelect(population).clone();
 		Individual parent2 = individualSelect(population).clone();
@@ -93,7 +93,7 @@ public class Practical2 {
 	public static Individual individualSelect(Individual[] population){
 
 		//Roulette wheel selection
-		/*double totalFitness = 0;
+		double totalFitness = 0;
 		for(int i =0; i < population.length; i++){
 			totalFitness += population[i].getFitness();
 		}
@@ -105,16 +105,16 @@ public class Practical2 {
 			tmpFitness += population[i].getFitness()/ totalFitness;
 			i++;
 		} while(tmpFitness < tmpDouble);
-		return population[i-1];*/
+		return population[i-1];
 
 		//tournament selection
-		Individual[] selection = new Individual[25];
+		/*Individual[] selection = new Individual[25];
 		for(int i = 0; i < 25; i++){
 			int rand = (int) Math.random() * population.length;
 			selection[i] = population[rand];
 		}
 		HeapSort.sort(selection);
-		return selection[0];
+		return selection[0];*/
 	}
 
 	public static Individual crossOver(Individual[] population, Individual individual1, Individual individual2){
