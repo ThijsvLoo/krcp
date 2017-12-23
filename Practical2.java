@@ -21,44 +21,48 @@ public class Practical2 {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		int popSize = 100;
-		for (char c = 'A'; c <= 'Z'; c++) {
-			alphabet[c - 'A'] = c;
-		}
-		alphabet[26] = ' ';
-		Random generator = new Random(System.currentTimeMillis());
-		Individual[] population = new Individual[popSize];
-		// we initialize the population with random characters
-		for (int i = 0; i < popSize; i++) {
-			char[] tempChromosome = new char[TARGET.length()];
-			for (int j = 0; j < TARGET.length(); j++) {
-				tempChromosome[j] = alphabet[generator.nextInt(alphabet.length)]; //choose a random letter in the alphabet
+		int totalGen = 0;
+		for (int h = 0; h < 500; h++) {
+			int popSize = 100;
+			for (char c = 'A'; c <= 'Z'; c++) {
+				alphabet[c - 'A'] = c;
 			}
-			population[i] = new Individual(tempChromosome);
-		}
-		// What does your population look like?
-		HeapSort.sort(population);
-		for (int i = 0; i < population.length; i++) {
-			System.out.println(population[i].genoToPhenotype() + " Fitness: " + population[i].getFitness());
-		}
-
-		// do your own cool GA here
-
-		int i = 0;
-		while (population[0].getFitness() != 1) {
-			Individual parent1 = individualSelect(population).clone();
-			Individual parent2 = individualSelect(population).clone();
-			Individual child1 = crossOver(population, parent1, parent2);
-			population[population.length-1] = child1;
-			mutate(population);
+			alphabet[26] = ' ';
+			Random generator = new Random(System.currentTimeMillis());
+			Individual[] population = new Individual[popSize];
+			// we initialize the population with random characters
+			for (int i = 0; i < popSize; i++) {
+				char[] tempChromosome = new char[TARGET.length()];
+				for (int j = 0; j < TARGET.length(); j++) {
+					tempChromosome[j] = alphabet[generator.nextInt(alphabet.length)]; //choose a random letter in the alphabet
+				}
+				population[i] = new Individual(tempChromosome);
+			}
+			// What does your population look like?
 			HeapSort.sort(population);
-			i++;
-		}
-		for (int k = population.length-1; k >= 0; k--) {
-			System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
-		}
-		System.out.println("Number of Iterations: " + i);
+			/*for (int i = 0; i < population.length; i++) {
+				System.out.println(population[i].genoToPhenotype() + " Fitness: " + population[i].getFitness());
+			}*/
 
+			// do your own cool GA here
+
+			int i = 0;
+			while (population[0].getFitness() != 1) {
+				Individual parent1 = individualSelect(population).clone();
+				Individual parent2 = individualSelect(population).clone();
+				Individual child1 = crossOver(population, parent1, parent2);
+				population[population.length - 1] = child1;
+				mutate(population);
+				HeapSort.sort(population);
+				i++;
+			}
+			/*for (int k = population.length - 1; k >= 0; k--) {
+				System.out.println(population[k].genoToPhenotype() + " Fitness: " + population[k].getFitness());
+			}*/
+			//System.out.println("Number of Iterations: " + i);
+			totalGen += i;
+		}
+		System.out.println("avaerage number of generations: " + totalGen/500);
 
 		/*Individual parent1 = individualSelect(population).clone();
 		Individual parent2 = individualSelect(population).clone();
@@ -87,7 +91,9 @@ public class Practical2 {
 		 */
 	}
 	public static Individual individualSelect(Individual[] population){
-		double totalFitness = 0;
+
+		//Roulette wheel selection
+		/*double totalFitness = 0;
 		for(int i =0; i < population.length; i++){
 			totalFitness += population[i].getFitness();
 		}
@@ -99,7 +105,16 @@ public class Practical2 {
 			tmpFitness += population[i].getFitness()/ totalFitness;
 			i++;
 		} while(tmpFitness < tmpDouble);
-		return population[i-1];
+		return population[i-1];*/
+
+		//tournament selection
+		Individual[] selection = new Individual[25];
+		for(int i = 0; i < 25; i++){
+			int rand = (int) Math.random() * population.length;
+			selection[i] = population[rand];
+		}
+		HeapSort.sort(selection);
+		return selection[0];
 	}
 
 	public static Individual crossOver(Individual[] population, Individual individual1, Individual individual2){
